@@ -21,10 +21,10 @@ class ArtAdmin(admin.ModelAdmin):
         return hasattr(request.user, 'arts')
 
     def has_view_permission(self, request, obj=None):
-
         return hasattr(request.user, 'arts')
 
     def get_queryset(self, request):
+        # Return only the arts that the currently logged-in User has made
         qs = super().get_queryset(request)
         return qs.filter(artist__user=request.user).distinct()
 
@@ -35,6 +35,7 @@ class ArtAdmin(admin.ModelAdmin):
 
 
 class ArtistAdmin(admin.ModelAdmin):
+
     def has_add_permission(self, request):
         if request.user.is_superuser:
             return True
