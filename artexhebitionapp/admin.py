@@ -1,4 +1,7 @@
+import datetime
+
 from django.contrib import admin
+from django.utils import timezone
 
 from artexhebitionapp.models import Exhibition, Artist, Art
 
@@ -65,7 +68,8 @@ class ExhibitionAdmin(admin.ModelAdmin):
             ret_list.append(art.exhibition.id)
         qs = super().get_queryset(request)
         if request.user.is_superuser:
-            return qs
+            time_now = timezone.now()
+            return qs.filter(start_date__lte=time_now, end_date__gte=time_now)
         elif hasattr(request.user, 'arts'):
             return qs.filter(id__in=ret_list).distinct()
 
