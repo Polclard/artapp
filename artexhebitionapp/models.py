@@ -28,4 +28,3 @@ class Exhibition(models.Model):
     end_date = models.DateTimeField()
     description = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
-
